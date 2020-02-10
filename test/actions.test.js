@@ -1,12 +1,14 @@
 import {
   LOCATION_CHANGE,
   CALL_HISTORY_METHOD,
+  RESET_HISTORIES,
   onLocationChanged,
   push,
   replace,
   go,
   goBack,
   goForward,
+  resetHistories,
 } from '../src/actions'
 
 describe('Actions', () => {
@@ -99,6 +101,18 @@ describe('Actions', () => {
       payload: {
         method: 'goForward',
         args: [],
+      },
+    }
+    expect(actualAction).toEqual(expectedAction)
+  })
+
+  it('returns correct action when calling resetHistories()', () => {
+    const actualAction = resetHistories('/path/to/somewhere')
+    const expectedAction = {
+      type: RESET_HISTORIES,
+      payload: {
+        method: 'push',
+        args: ['/path/to/somewhere'],
       },
     }
     expect(actualAction).toEqual(expectedAction)

@@ -28,6 +28,7 @@ declare module 'connected-react-router' {
 
   export const LOCATION_CHANGE: '@@router/LOCATION_CHANGE';
   export const CALL_HISTORY_METHOD: '@@router/CALL_HISTORY_METHOD';
+  export const RESET_HISTORIES: '@@router/RESET_HISTORIES';
 
   export interface LocationChangeAction<S = LocationState> {
     type: typeof LOCATION_CHANGE;
@@ -43,6 +44,11 @@ declare module 'connected-react-router' {
     payload: LocationActionPayload<A>;
   }
 
+  export interface ResetHistoriesMethodAction<A = any[]> {
+    type: typeof RESET_HISTORIES;
+    payload: LocationActionPayload<A>;
+  }
+
   export interface RouterRootState<S = LocationState> {
     router: RouterState<S>;
   }
@@ -55,6 +61,8 @@ declare module 'connected-react-router' {
 
   export function push<S = LocationState>(path: Path, state?: S): CallHistoryMethodAction<[ Path, S? ]>;
   export function push<S = LocationState>(location: LocationDescriptorObject<S>): CallHistoryMethodAction<[ LocationDescriptorObject<S> ]>;
+  export function resetHistories<S = LocationState>(path: Path, state?: S): ResetHistoriesMethodAction<[ Path, S?]>
+  export function resetHistories<S = LocationState>(location: LocationDescriptorObject<S>): ResetHistoriesMethodAction<[ LocationDescriptorObject<S> ]>
   export function replace<S = LocationState>(path: Path, state?: S): CallHistoryMethodAction<[ Path, S? ]>;
   export function replace<S = LocationState>(location: LocationDescriptorObject<S>): CallHistoryMethodAction<[ LocationDescriptorObject<S> ]>;
   export function go(n: number): CallHistoryMethodAction<[ number ]>;
@@ -76,6 +84,7 @@ declare module 'connected-react-router' {
   export type Go = typeof go;
   export type GoBack = typeof goBack;
   export type GoForward = typeof goForward;
+  export type ResetHistories = typeof resetHistories;
 
   export const routerActions: {
     push: Push;
@@ -83,6 +92,7 @@ declare module 'connected-react-router' {
     go: Go;
     goBack: GoBack;
     goForward: GoForward;
+    resetHistories: ResetHistories;
   };
 
   export interface LocationActionPayload<A = any[]> {

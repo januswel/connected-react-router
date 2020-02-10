@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store'
 import routerMiddleware from '../src/middleware'
-import { CALL_HISTORY_METHOD } from '../src/actions'
+import { CALL_HISTORY_METHOD, RESET_HISTORIES } from '../src/actions'
 
 describe('Middleware', () => {
   it('calls history method based on action payload values', () => {
@@ -12,6 +12,8 @@ describe('Middleware', () => {
       go: jest.fn(),
       goBack: jest.fn(),
       goForward: jest.fn(),
+      entries: ['foo', 'bar'],
+      index: 2,
     }
     const middlewares = [routerMiddleware(history)]
     const mockStore = configureStore(middlewares)
@@ -66,6 +68,18 @@ describe('Middleware', () => {
       }
     })
     expect(history.goForward).toBeCalled()
+
+    // restHistories
+    store.dispatch({
+      type: RESET_HISTORIES,
+      payload: {
+        method: 'push',
+        args: ['/path/to/somewhere'],
+      }
+    })
+    expect(history.push).toBeCalledWith('/path/to/somewhere')
+    expect(history.entries).toEqual([])
+    expect(history.index).toBe(-1)
   })
 
   it('passes to next middleware if action type is not CALL_HISTORY_METHOD', () => {

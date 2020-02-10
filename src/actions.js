@@ -3,6 +3,7 @@
  * receives a location change.
  */
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
+export const RESET_HISTORIES = '@@router/RESET_HISTORIES'
 
 export const onLocationChanged = (location, action, isFirstRendering = false) => ({
   type: LOCATION_CHANGE,
@@ -40,5 +41,12 @@ export const replace = updateLocation('replace')
 export const go = updateLocation('go')
 export const goBack = updateLocation('goBack')
 export const goForward = updateLocation('goForward')
+export const resetHistories = (...args) => ({
+  type: RESET_HISTORIES,
+  payload: {
+    method: 'push',
+    args
+  }
+})
 
-export const routerActions = { push, replace, go, goBack, goForward }
+export const routerActions = { push, replace, go, goBack, goForward, resetHistories }

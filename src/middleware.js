@@ -1,4 +1,4 @@
-import { CALL_HISTORY_METHOD } from './actions'
+import { CALL_HISTORY_METHOD, RESET_HISTORIES } from './actions'
 
 /**
  * This middleware captures CALL_HISTORY_METHOD actions to redirect to the
@@ -6,8 +6,13 @@ import { CALL_HISTORY_METHOD } from './actions'
  * reducer or any middleware that comes after this one.
  */
 const routerMiddleware = (history) => store => next => action => { // eslint-disable-line no-unused-vars
-  if (action.type !== CALL_HISTORY_METHOD) {
+  if (![CALL_HISTORY_METHOD, RESET_HISTORIES].includes(action.type)) {
     return next(action)
+  }
+
+  if (action.type === RESET_HISTORIES) {
+    history.entries = []
+    history.index = -1
   }
 
   const { payload: { method, args } } = action
